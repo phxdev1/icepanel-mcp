@@ -46,18 +46,62 @@ Please use MCP Servers with caution; only install tools you trust. (We promise t
 
 #### Configure your MCP Client
 
-Add this to your MCP Clients' MCP config file:
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/icepanel/mcp-server.git
+   cd mcp-server
+   ```
 
-```json
-{
-  "mcpServers": {
-    "@icepanel/icepanel": {
-      "command": "npx",
-      "args": ["-y", "@icepanel/mcp-server@latest", "API_KEY=\"your-api-key\"", "ORGANIZATION_ID=\"your-org-id\""]
-    }
-  }
-}
-```
+2. Install dependencies:
+   ```bash
+   npm install
+   # or if you prefer yarn
+   yarn
+   # or if you prefer pnpm
+   pnpm install
+   ```
+
+3. Create a `.env` file with your credentials:
+   ```
+   API_KEY=your-api-key
+   ORGANIZATION_ID=your-org-id
+   ```
+
+4. Configure your MCP client to run directly from the source code:
+   ```json
+   {
+     "mcpServers": {
+       "icepanel": {
+         "command": "tsx",
+         "args": ["path/to/mcp-server/src/main.ts"],
+         "cwd": "path/to/mcp-server"
+       }
+     }
+   }
+   ```
+
+   Note: This requires `tsx` to be installed globally or in your project. If you prefer, you can also use:
+   
+   ```json
+   {
+     "mcpServers": {
+       "icepanel": {
+         "command": "npx",
+         "args": ["tsx", "path/to/mcp-server/src/main.ts"],
+         "cwd": "path/to/mcp-server"
+       }
+     }
+   }
+   ```
+
+5. For development with auto-reload:
+   ```bash
+   npm run dev
+   # or
+   yarn dev
+   # or
+   pnpm dev
+   ```
 
 ## 📈 The Great Leap Forward: From "Meh" to "Wow!"
 
@@ -146,7 +190,7 @@ IcePanel is built around the [C4 model](https://c4model.com/), a framework for v
 
 ```typescript
 // Create a new system (much easier than creating a real system)
-const systemResult = await client.useTool("@icepanel/icepanel", "createModelObject", {
+const systemResult = await client.useTool("icepanel", "createModelObject", {
   landscapeId: "your-landscape-id",
   name: "Payment Processing System",
   type: "system",
@@ -154,7 +198,7 @@ const systemResult = await client.useTool("@icepanel/icepanel", "createModelObje
 });
 
 // Create an app within the system (no App Store approval required)
-const appResult = await client.useTool("@icepanel/icepanel", "createModelObject", {
+const appResult = await client.useTool("icepanel", "createModelObject", {
   landscapeId: "your-landscape-id",
   name: "Payment Gateway",
   type: "app",
@@ -167,7 +211,7 @@ const appResult = await client.useTool("@icepanel/icepanel", "createModelObject"
 
 ```typescript
 // Create a container diagram for the system (no artistic talent required)
-const diagramResult = await client.useTool("@icepanel/icepanel", "createDiagram", {
+const diagramResult = await client.useTool("icepanel", "createDiagram", {
   landscapeId: "your-landscape-id",
   name: "Payment System - Container View",
   viewType: "container",
@@ -180,7 +224,7 @@ const diagramResult = await client.useTool("@icepanel/icepanel", "createDiagram"
 
 ```typescript
 // Find all live applications using a specific technology (like architectural detective work)
-const appsResult = await client.useTool("@icepanel/icepanel", "getModelObjects", {
+const appsResult = await client.useTool("icepanel", "getModelObjects", {
   landscapeId: "your-landscape-id",
   type: "app",
   status: "live",
@@ -191,6 +235,7 @@ const appsResult = await client.useTool("@icepanel/icepanel", "getModelObjects",
 ## ✉️ Support
 
 - For any issues with the IcePanel MCP Server, please contact the IcePanel team at [Support](mailto:support@icepanel.io).
+- The IcePanel team promises to read your email... eventually.
 - Note: This README was created by a contributor to the project, not by IcePanel's support team. Please direct all support inquiries to IcePanel directly.
 
 ## 📝 License
